@@ -209,7 +209,7 @@ describe("POST /enrollments", () => {
         const token = await generateValidToken();
 
         const response = await server.post("/enrollments").set("Authorization", `Bearer ${token}`).send(body);
-
+      
         expect(response.status).toBe(httpStatus.BAD_REQUEST);
       });
     });
