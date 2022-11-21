@@ -1,4 +1,4 @@
-import { AuthenticatedRequest, generateUnauthorizedResponse } from "@/middlewares";
+import { AuthenticatedRequest } from "@/middlewares";
 import { Response } from "express";
 import httpStatus from "http-status";
 import ticketsService from "@/services/tickets-service";
@@ -6,10 +6,10 @@ import ticketsService from "@/services/tickets-service";
 export async function postTickets(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const ticketTypeId = Number(req.body.ticketTypeId);
-  for (const property in req.headers) {
-    console.log(`${property}: ${req.headers[property]}`);
+  if(!ticketTypeId ) {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
   }
-
+  
   try {
     const postTicket = await ticketsService.postTicketTypeId(userId, ticketTypeId);
     return res.status(httpStatus.CREATED).send(postTicket);

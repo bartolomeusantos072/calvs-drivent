@@ -32,7 +32,7 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
 }
 
 export function generateUnauthorizedResponse(res: Response) {
-  return res.status(httpStatus.UNAUTHORIZED).send(unauthorizedError());
+  res.status(httpStatus.UNAUTHORIZED).send(unauthorizedError());
 }
 
 export type AuthenticatedRequest = Request & JWTPayload;

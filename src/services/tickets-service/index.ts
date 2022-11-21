@@ -25,10 +25,6 @@ async function getTicketsByEnrollmentUserId(userId: number) {
     })[0];
 }
 async function postTicketTypeId(userId: number, idTicketType: number) {
-  if(!idTicketType ) {
-    throw requestError(400, "Bad Request");
-  } 
- 
   const verifyUserId = await  userRepository.findUserById(userId);
   if(!verifyUserId) throw notFoundError();
 
