@@ -151,7 +151,7 @@ describe("GET /tickets", () => {
 describe("POST /tickets", () => {
   it("should respond with status 401 if no token is given", async () => {
     const response = await server.post("/tickets");
-
+   
     expect(response.status).toBe(httpStatus.UNAUTHORIZED);
   });
 
