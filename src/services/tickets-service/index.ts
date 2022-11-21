@@ -1,4 +1,4 @@
-import { notFoundErrorg, } from "@/errors";
+import { notFoundError, } from "@/errors";
 import ticketsRepository from "@/repositories/tickets-repository";
 import userRepository from "@/repositories/user-repository";
 import { Ticket, TicketType } from "@prisma/client";
