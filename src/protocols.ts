@@ -29,3 +29,11 @@ export type RequestError = {
   name: string,
   message: string,
 };
+
+export type CardData = {
+  issuer: string,
+  number: number,
+  name: string,
+  expirationDate: Date,
+  cvv: number,
+};

@@ -5,10 +5,11 @@ const dateRegex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]|(?:Jan|Mar|May|Jul|Aug|O
 export const paymentsSchema = Joi.object({
   ticketId: Joi.number().required(),
   cardData: {
-    issuer: Joi.string().required(),
+    issuer: Joi.string().valid("VISA").valid("MASTERCARD").required(),
     number: Joi.string().length(16).pattern(/^[0-9]+$/).required(),
     name: Joi.string().required(),
     expirationDate: Joi.string().pattern(dateRegex).required(),
     cvv: Joi.string().length(3).pattern(/^[0-9]+$/).required(),
   },  
 });
+
