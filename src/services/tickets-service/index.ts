@@ -24,33 +24,6 @@ async function getTicketsByEnrollmentUserId(userId: number) {
       return result;
     })[0];
 }
-async function postTicketTypeId(userId: number, idTicketType: number) {
-  const verifyUserId = await  userRepository.findUserById(userId);
-  if(!verifyUserId) throw notFoundError();
-
-  const ticketByTypes = await ticketsRepository.findTicketTypeId(userId, idTicketType);
-    
-  if (!ticketByTypes|| ticketByTypes.Ticket.length === 0) {
-    throw notFoundError();
-  }
-  
-  const result = ticketByTypes.Ticket.map(
-    function(ticket) {
-      const {
-        id,
-        ticketTypeId,
-        enrollmentId,
-        status,
-        createdAt,
-        updatedAt
-      } = { ...ticket };
-      const { TicketType }= ticket;
-      const result = { id, status, ticketTypeId, enrollmentId, TicketType, createdAt, updatedAt };
-      return result;
-    })[0];
-
-  return result;
-}
 
 async function getTicketsTypeByEnrollmentUserId(userId: number) {
   const ticketTypeByEnrollment =  await ticketsRepository.findTicketTypeByEnrollmentByUserId(userId);
@@ -71,8 +44,27 @@ async function getTicketsTypeByEnrollmentUserId(userId: number) {
       return result;
     })[0];
 }
+
+async function postTicket(userId: number, idTicketType: number) {
+  const idUserCheck = await  userRepository.findUserById(userId);
+  if(!idUserCheck) throw notFoundError();
+
+  const enrollmentCheck = await ticketsRepository.findEnrollmentId(idUserCheck.id);
+    
+  if ( !enrollmentCheck) {
+    throw notFoundError();
+  }
+
+  const ticketByTypes = await ticketsRepository.createTicket(enrollmentCheck.id, idTicketType);
+   
+  const { id, ticketTypeId, enrollmentId, status, createdAt, updatedAt } ={ ...ticketByTypes.createTicket };
+  const  ticketType = { ...ticketByTypes.ticketType };
+  const result = { id, status: status.toString(), ticketTypeId, enrollmentId, TicketType: ticketType, createdAt, updatedAt };
+
+  return result;
+}
 const ticketsService = {
-  postTicketTypeId,
+  postTicket,
   getTicketsByEnrollmentUserId,
   getTicketsTypeByEnrollmentUserId
 };

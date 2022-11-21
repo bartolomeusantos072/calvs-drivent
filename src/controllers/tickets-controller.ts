@@ -4,15 +4,18 @@ import httpStatus from "http-status";
 import ticketsService from "@/services/tickets-service";
 
 export async function postTickets(req: AuthenticatedRequest, res: Response) {
-  const { userId } = req;
+  const idUser= Number(req.userId);
+  if(!idUser) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
   const ticketTypeId = Number(req.body.ticketTypeId);
   if(!ticketTypeId ) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
   
   try {
-    const postTicket = await ticketsService.postTicketTypeId(userId, ticketTypeId);
-    return res.status(httpStatus.CREATED).send(postTicket);
+    const ticket = await ticketsService.postTicket(idUser, ticketTypeId);
+    return res.status(httpStatus.CREATED).send(ticket);
   } catch (error) {
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }

@@ -4,9 +4,9 @@ import  { ticketTypeIdSchema } from "@/schemas/tickets-schemas";
 import { postTickets, getTickets, getTicketsTypes } from "@/controllers/tickets-controller";
 
 const ticketsRouter = Router();
-ticketsRouter.use(authenticateToken);
-ticketsRouter.get("/tickets", getTickets);
-ticketsRouter.post("/tickets", validateBody(ticketTypeIdSchema), postTickets);
-ticketsRouter.get("/tickets/types",  getTicketsTypes);
+ticketsRouter.all("/*", authenticateToken);
+ticketsRouter.get("/types",  getTicketsTypes);
+ticketsRouter.get("/", getTickets);
+ticketsRouter.post("/", validateBody(ticketTypeIdSchema), postTickets);
 
 export { ticketsRouter };
