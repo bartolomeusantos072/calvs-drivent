@@ -22,10 +22,13 @@ export async function postTickets(req: AuthenticatedRequest, res: Response) {
 }
 
 export async function getTickets(req: AuthenticatedRequest, res: Response) {
-  const { userId } = req;
+  const idUser= Number(req.userId);
+  if(!idUser) {
+    return res.sendStatus(httpStatus.NOT_FOUND);
+  }
     
   try {
-    const ticketFound = await ticketsService.getTicketsByEnrollmentUserId(userId);
+    const ticketFound = await ticketsService.getTickets(idUser);
     return res.status(httpStatus.OK).send(ticketFound);
   } catch (error) {
     return res.sendStatus(httpStatus.NOT_FOUND);
@@ -35,7 +38,7 @@ export async function getTickets(req: AuthenticatedRequest, res: Response) {
 export async function getTicketsTypes(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   try {
-    const ticketTypeFound = await ticketsService.getTicketsTypeByEnrollmentUserId(userId);
+    const ticketTypeFound = await ticketsService.getTicketsTypes(userId);
     return res.status(httpStatus.OK).send(ticketTypeFound);
   } catch (error) {
     return res.sendStatus(httpStatus.NOT_FOUND);
