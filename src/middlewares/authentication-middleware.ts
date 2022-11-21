@@ -10,6 +10,7 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
   if (!authHeader) return generateUnauthorizedResponse(res);
 
   const token = authHeader.split(" ")[1];
+ 
   if (!token) return generateUnauthorizedResponse(res);
 
   try {
@@ -30,7 +31,7 @@ export async function authenticateToken(req: AuthenticatedRequest, res: Response
   }
 }
 
-function generateUnauthorizedResponse(res: Response) {
+export function generateUnauthorizedResponse(res: Response) {
   res.status(httpStatus.UNAUTHORIZED).send(unauthorizedError());
 }
 
